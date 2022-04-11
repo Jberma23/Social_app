@@ -10,7 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_08_214136) do
+ActiveRecord::Schema.define(version: 2022_04_10_193900) do
+
+  create_table "friendships", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_user_id"
+    t.index ["friend_user_id", "user_id"], name: "index_friendships_on_friend_user_id_and_user_id", unique: true
+    t.index ["user_id", "friend_user_id"], name: "index_friendships_on_user_id_and_friend_user_id", unique: true
+  end
+
+  create_table "post_comments", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "commenter_id"
+    t.string "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commenter_id"], name: "index_post_comments_on_commenter_id"
+    t.index ["post_id"], name: "index_post_comments_on_post_id"
+  end
+
+  create_table "post_likes", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "liker_id"
+    t.integer "{:to_table=>:users}_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["liker_id"], name: "index_post_likes_on_liker_id"
+    t.index ["post_id"], name: "index_post_likes_on_post_id"
+    t.index ["{:to_table=>:users}_id"], name: "index_post_likes_on_{:to_table=>:users}_id"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.string "body"
+    t.integer "author_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_posts_on_author_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +65,8 @@ ActiveRecord::Schema.define(version: 2022_04_08_214136) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "post_comments", "posts"
+  add_foreign_key "post_comments", "users", column: "commenter_id"
+  add_foreign_key "post_likes", "posts"
+  add_foreign_key "posts", "users", column: "author_id"
 end
