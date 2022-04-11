@@ -5,6 +5,7 @@ import Home from "../packs/components/Home";
 import {MemoryRouter} from 'react-router-dom'
 import { createRoot } from 'react-dom/client';
 import NavigationBar from "./components/navigation_bar";
+import App from "./components/App"
 
 
 
@@ -12,9 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
  
 const container = document.getElementById('root');
 const root = createRoot(container);
-root.render( 
-    <MemoryRouter>
-        <NavigationBar/>
-        <Home />
-    </MemoryRouter>);
+root.render(     
+    <App /> 
+  );
 });

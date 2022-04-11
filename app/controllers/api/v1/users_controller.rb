@@ -1,11 +1,17 @@
 class Api::V1::UsersController < ApplicationController
-    before_action :set_beer, only: [:show, :edit, :update, :destroy]
+    before_action :set_user, only: [:show, :edit, :update, :destroy]
 
     # GET /users
     # GET /users.json
     def index
       @users = User.all
       render json: @users
+    end
+
+    def current_user
+      @current_user = User.all.first
+      render json:   @current_user
+    # current_user ? current_user : null
     end
   
     # GET /users/1
@@ -63,5 +69,4 @@ class Api::V1::UsersController < ApplicationController
       def user_params
         params.permit()
       end
-  end
 end

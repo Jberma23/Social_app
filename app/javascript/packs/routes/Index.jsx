@@ -5,12 +5,19 @@ import {
   Routes
 } from "react-router-dom";
 import Home from "../components/Home";
+import Navbar from 'react-bootstrap/Navbar'
 import NavigationBar from "../components/navigation_bar";
 
+
+
+
+
 export default (
-  <Router>
+    <Router>
+      <NavigationBar/>
       <Routes>
         <Route path="/" element={Home} />
       </Routes>
-  </Router>
+  </Router> 
+ 
 );
